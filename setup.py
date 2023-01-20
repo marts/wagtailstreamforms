@@ -19,6 +19,7 @@ tests_require = [
 
 install_requires = [
     "wagtail>=2,<4.2",
+    "wagtail-generic-chooser>=0.5,<0.6",
     "Unidecode>=0.04.14,<2.0",
 ]
 

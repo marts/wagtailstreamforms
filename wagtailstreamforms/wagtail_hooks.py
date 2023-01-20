@@ -15,6 +15,9 @@ from wagtail.contrib.modeladmin.views import (
 )
 from wagtail.core import hooks
 
+from generic_chooser.views import ModelChooserViewSet
+from generic_chooser.widgets import AdminChooser
+
 from wagtailstreamforms import hooks as form_hooks
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import Form
@@ -245,3 +248,28 @@ def process_form(page, request, *args, **kwargs):
                 return TemplateResponse(
                     request, page.get_template(request, *args, **kwargs), context
                 )
+
+
+class WagtailStreamFormsChooserViewSet(ModelChooserViewSet):
+    icon = "form"
+    model = Form
+    page_title = _("Choose a form")
+    per_page = 10
+
+
+class WagtailStreamFormsChooser(AdminChooser):
+    choose_one_text = _("Choose a form")
+    choose_another_text = _("Choose another form")
+    link_to_chosen_text = _("Edit this form")
+    model = Form
+    choose_modal_url_name = "wagtailstreamforms_chooser:choose"
+    icon = "form"
+
+    def get_edit_item_url(self, item):
+        # There may be a better way of getting the edit url
+        return f"/admin/wagtailstreamforms/form/edit/{item.pk}/"
+
+
+@hooks.register("register_admin_viewset")
+def register_wagtailstreamforms_chooser_viewset():
+    return WagtailStreamFormsChooserViewSet("wagtailstreamforms_chooser", url_prefix="wagtailstreamforms-chooser")

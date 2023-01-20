@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.settings",
     "taggit",
+    "generic_chooser",
     "wagtailstreamforms",
     "tests",
 ]
